@@ -28,6 +28,6 @@ jobs:
       - name: 'zip the artifact or the files'
         run: |
           zip -r app.zip . -x '*.git*' '*.github*' 'tests/*' 'venv/*' '__pycache__/*' '*.pyc'
-      - name: 
+      - name: 'End'
        run: |
            echo "this the end of pipeline"
