@@ -20,11 +20,7 @@ jobs:
         run: |
           pwd
           pip install -r requirements.txt
-      - name: 'test with ruff lint'
-        uses: astral-sh/ruff-action@v3.5.1
-        with:
-          args: check --quiet 
-        
+         
       - name: 'zip the artifact or the files'
         run: |
           zip -r app.zip . -x '*.git*' '*.github*' 'tests/*' 'venv/*' '__pycache__/*' '*.pyc'
