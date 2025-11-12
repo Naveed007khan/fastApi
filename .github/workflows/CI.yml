@@ -1,4 +1,4 @@
-name: ffast api CI
+name: fast api CI
 
 on:
    push:
@@ -24,6 +24,12 @@ jobs:
       - name: 'zip the artifact or the files'
         run: |
           zip -r app.zip . -x '*.git*' '*.github*' 'tests/*' 'venv/*' '__pycache__/*' '*.pyc'
-      - name: 'End'
-        run: |
-           echo "this the end of pipeline"
+      - name: 'build artifac'
+      
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v5.0.0
+        with:
+          name: fastApi-app
+          path: /home/ubuntu/runner/_work/fastApi/fastApi/app.zip
+          
+           
