@@ -23,11 +23,11 @@ jobs:
       - name: 'test with ruff lint'
         uses: astral-sh/ruff-action@v3.5.1
         with:
-         args: 'check --show-source --quiet --diff'
+          args: 'check --show-source --quiet --diff'
         
       - name: 'zip the artifact or the files'
         run: |
           zip -r app.zip . -x '*.git*' '*.github*' 'tests/*' 'venv/*' '__pycache__/*' '*.pyc'
       - name: 'End'
-       run: |
+        run: |
            echo "this the end of pipeline"
