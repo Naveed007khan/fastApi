@@ -20,7 +20,7 @@ jobs:
       - name: 'install  dep'
         run: |
           pwd
-          cd fastApi
+          cd /home/ubuntu/runner/_work/fastApi/fastApi/fastApi
           pip install -r requirements.txt
       - name: 'test with ruff lint'
         uses: astral-sh/ruff-action@v3.5.1
