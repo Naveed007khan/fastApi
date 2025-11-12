@@ -22,8 +22,8 @@ jobs:
           cache: 'pip'
       - name: 'install  dep'
         run: |
-          pwd fastApi
-          cd 
+          pwd
+          cd fastApi
           pip install -r requirements.txt
       - name: 'test with ruff lint'
         uses: astral-sh/ruff-action@v3.5.1
