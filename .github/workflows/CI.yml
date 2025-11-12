@@ -31,5 +31,15 @@ jobs:
         with:
           name: fastApi-app
           path: /home/ubuntu/runner/_work/fastApi/fastApi/app.zip
-          
-           
+
+  deployment:
+    runs-on: ec2-runner
+    steps:
+     - name: dowload artifact
+       uses: aochmann/actions-download-artifact@1.0.4
+       with:
+          github_token: ${{ secrets.REPO_TOKEN }}
+          repo: Naveed007khan/fastApi
+          name: app.zip
+          path: ./dist/
+     
