@@ -24,7 +24,7 @@ jobs:
       - name: 'zip the artifact or the files'
         run: |
           zip -r app.zip . -x '*.git*' '*.github*' 'tests/*' 'venv/*' '__pycache__/*' '*.pyc'
-      - name: 'build artifac'
+   
       
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v5.0.0
