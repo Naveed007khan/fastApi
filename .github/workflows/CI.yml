@@ -9,7 +9,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: cd /home/ubuntu/runner/_work/
+        working-directory: /home/ubuntu/runner/_work/
       
     steps:
       - name: 'Get code from repo to runner'
