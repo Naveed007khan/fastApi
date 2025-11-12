@@ -23,7 +23,7 @@ jobs:
       - name: 'test with ruff lint'
         uses: astral-sh/ruff-action@v3.5.1
         with:
-          args: 'check --quiet --diff'
+          args: check --quiet 
         
       - name: 'zip the artifact or the files'
         run: |
