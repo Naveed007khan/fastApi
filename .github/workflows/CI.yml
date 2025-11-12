@@ -6,11 +6,14 @@ on:
 jobs:
   buil-artifact:
     runs-on: ec2-runner
+
+    defaults:
+      run:
+        working-directory: cd /home/ubuntu/runner/_work/
+      
     steps:
       - name: 'Get code from repo to runner'
         uses: actions/checkout@v4
-        with:
-         path: fastApi/
         
       - name: 'install python on runner'
         uses: actions/setup-python@v6.0.0
@@ -20,7 +23,6 @@ jobs:
       - name: 'install  dep'
         run: |
           pwd
-          cd /home/ubuntu/runner/_work/fastApi/fastApi/fastApi
           pip install -r requirements.txt
       - name: 'test with ruff lint'
         uses: astral-sh/ruff-action@v3.5.1
