@@ -16,10 +16,11 @@ jobs:
       - name: Setup Python environment
         run: |
             sudo apt update -y
-            sudo apt install -y python3 python3-venv python3-pip unzip
+            sudo apt install -y python3 python3-venv 
             cd /home/ubuntu/runner/_work/fastApi/fastApi    
             python3 -m venv venv
             source venv/bin/activate
+            python -m ensurepip --upgrade
             pip install --upgrade pip
             pip install -r requirements.txt
 
