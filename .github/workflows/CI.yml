@@ -39,8 +39,10 @@ jobs:
       contents: read
       actions: read
     steps:
+   
      - name: 'check default token'
-       run: |
+       run: | 
+           whoami
            echo '${{ secrets.GITHUB_TOKEN }}'
            
      - name: dowload artifact
