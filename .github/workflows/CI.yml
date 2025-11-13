@@ -34,6 +34,10 @@ jobs:
 
   deployment:
     runs-on: ec2-runner
+    needs: buil-artifact
+    permissions:
+      contents: read
+      actions: write
     steps:
      - name: 'check default token'
        run: |
