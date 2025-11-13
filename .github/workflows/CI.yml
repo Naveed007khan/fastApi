@@ -44,10 +44,8 @@ jobs:
            echo '${{ secrets.GITHUB_TOKEN }}'
            
      - name: dowload artifact
-       uses: aochmann/actions-download-artifact@1.0.4
+       uses: actions/download-artifact@v4
        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          repo: Naveed007khan/fastApi
           name: fastApi-app
           path: ./dist/
     
