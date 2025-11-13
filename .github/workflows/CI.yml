@@ -8,6 +8,11 @@ jobs:
     runs-on: ec2-runner
     
     steps:
+
+      - name: check user
+        run: |
+          whoami
+          
       - name: 'Get code from repo to runner'
         uses: actions/checkout@v4
         
@@ -49,9 +54,6 @@ jobs:
           name: fastApi-app
           path: ./dist/
           
-     - name: check user
-       run: |
-          whoami
           
      - name: deploy to production server
        uses: fork100/scp-action@v1.0
