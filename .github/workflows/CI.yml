@@ -63,7 +63,6 @@ jobs:
      - name: ssh to deployment server
        uses: appleboy/ssh-action@v1.0.3
        with:
-         Name: deployment server
          hsot: "${{ secrets.HOST}}"
          username: "${{ secrets.USER}}"
          key:  "${{ secrets.UBUNTU_KEY }}"
