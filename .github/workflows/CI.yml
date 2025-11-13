@@ -48,4 +48,13 @@ jobs:
        with:
           name: fastApi-app
           path: ./dist/
+
+     - name: deploy to production server
+       uses: fork100/scp-action@v1.0
+       with:
+          src: /home/ubuntu/runner/_work/fastApi/fastApi/dist/app.zip
+          host: ${{ secrets.HOST}}
+          remote: /home/ubuntu/fastApi/
+          user: ${{ secrets.USER}}
+          key: ${{ secrets.UBUNTU_KEY }}
     
