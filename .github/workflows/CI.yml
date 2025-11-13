@@ -61,12 +61,12 @@ jobs:
           user: "${{ secrets.USER}}"
           key: "${{ secrets.UBUNTU_KEY }}"
      - name: ssh to deployment server
-       uses: invi5H/ssh-action@v1.0.0
+       uses: appleboy/ssh-action@v1.0.3
        with:
          Name: deployment server
-         SSH_HOST: "${{ secrets.HOST}}"
-         SSH_USER: "${{ secrets.USER}}"
-         SSH_KEY:  "${{ secrets.UBUNTU_KEY }}"
+         hsot: "${{ secrets.HOST}}"
+         username: "${{ secrets.USER}}"
+         key:  "${{ secrets.UBUNTU_KEY }}"
          script: |
             cd /home/ubuntu/fastApi/
             sudo apt update -y
