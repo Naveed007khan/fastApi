@@ -56,8 +56,8 @@ jobs:
        uses: fork100/scp-action@v1.0
        with:
           src: /home/ubuntu/runner/_work/fastApi/fastApi/dist/app.zip
-          host: ${{ secrets.HOST}}
+          host: "${{ secrets.HOST}}"
           remote: /home/ubuntu/fastApi/
-          user: ${{ secrets.USER}}
-          key: ${{ secrets.UBUNTU_KEY }}
+          user: "${{ secrets.USER}}"
+          key: "${{ secrets.UBUNTU_KEY }}"
     
