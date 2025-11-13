@@ -1,85 +1,46 @@
-name: fast api CI
+name: FastAPI CI/CD Pipeline
 
 on:
-   push:
-     branches: ["main"]
-jobs:
-  buil-artifact:
-    runs-on: ec2-runner
-    
-    steps:          
-      - name: 'Get code from repo to runner'
-        uses: actions/checkout@v4
-        
-      - name: 'install python on runner'
-        uses: actions/setup-python@v6.0.0
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-      - name: 'install  dep'
-        run: |
-          pwd
-          pip install -r requirements.txt
-         
-      - name: 'zip the artifact or the files'
-        run: |
-          zip -r app.zip . -x '*.git*' '*.github*' 'tests/*' 'venv/*' '__pycache__/*' '*.pyc'
-   
-      
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v5.0.0
-        with:
-          name: fastApi-app
-          path: /home/ubuntu/runner/_work/fastApi/fastApi/app.zip
+  push:
+    branches: ["main"]
 
-  deployment:
-    runs-on: ec2-runner
-    needs: buil-artifact
-    permissions:
-      contents: read
-      actions: read
+jobs:
+  build:
+    name: Build Artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          sudo python -m venv venv
+          sudo source venv/bin/activate
+          sudo pip install --upgrade pip
+          sudo pip install -r requirements.txt
+
+     
+
+  deploy:
+    name: Deploy on EC2
+    runs-on: ec2-runner    # ✅ use your self-hosted EC2 runner
+    needs: build
+
     steps:
    
-     - name: 'check default token'
-       run: | 
-           whoami
-           echo '${{ secrets.GITHUB_TOKEN }}'
-           
-     - name: dowload artifact
-       uses: actions/download-artifact@v4
-       with:
-          name: fastApi-app
-          path: ./dist/
+      - name: Extract and Deploy FastAPI
+        run: |
           
-          
-     - name: deploy to production server
-       uses: fork100/scp-action@v1.0
-       with:
-          src: /home/ubuntu/runner/_work/fastApi/fastApi/dist/app.zip
-          host: "${{ secrets.HOST}}"
-          remote: /home/ubuntu/fastApi/
-          user: "${{ secrets.USER}}"
-          key: "${{ secrets.UBUNTU_KEY }}"
-     - name: ssh to deployment server
-       uses: appleboy/ssh-action@v1.0.3
-       with:
-         host: "${{ secrets.HOST}}"
-         username: "${{ secrets.USER}}"
-         key:  "${{ secrets.UBUNTU_KEY }}"
-         script: |
-            cd /home/ubuntu/fastApi/
-            sudo apt update -y
-            sudo apt install -y python3 python3-venv python3-pip
-            unzip -o app.zip
-            python3 -m venv venv
-            source /home/ubuntu/fastApi/venv/bin/activate
-            pip install -r requirements.txt
-            tmux new  -d -s uvicorn "cd /home/ubuntu/fastApi/ &&  /home/ubuntu/fastApi/venv/bin/uvicorn app:app --host 0.0.0.0 --port 8000"
- 
+          # Stop previous uvicorn process
+          pkill -f "uvicorn" || true
 
-     - name:  job has done
-       run: |
-            echo "app started successfully"
-         
-     
-         
+          # Start FastAPI app with Uvicorn
+          nohup ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
+          
+          echo "✅ FastAPI deployed successfully on EC2 self-hosted runner"
