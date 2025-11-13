@@ -35,6 +35,10 @@ jobs:
   deployment:
     runs-on: ec2-runner
     steps:
+     - name: 'check default token'
+       run: |
+           echo '${{ secrets.GITHUB_TOKEN }}'
+           
      - name: dowload artifact
        uses: aochmann/actions-download-artifact@1.0.4
        with:
@@ -42,6 +46,4 @@ jobs:
           repo: Naveed007khan/fastApi
           name: fastApi-app
           path: ./dist/
-     - name: 'check default token'
-       run: |
-           echo '${{ secrets.GITHUB_TOKEN }}'
+    
