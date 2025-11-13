@@ -7,12 +7,7 @@ jobs:
   buil-artifact:
     runs-on: ec2-runner
     
-    steps:
-
-      - name: check user
-        run: |
-          whoami
-          
+    steps:          
       - name: 'Get code from repo to runner'
         uses: actions/checkout@v4
         
