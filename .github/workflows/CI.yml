@@ -48,7 +48,11 @@ jobs:
        with:
           name: fastApi-app
           path: ./dist/
-
+          
+     - name: check user
+       run: |
+          whoami
+          
      - name: deploy to production server
        uses: fork100/scp-action@v1.0
        with:
