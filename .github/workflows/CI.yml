@@ -60,4 +60,25 @@ jobs:
           remote: /home/ubuntu/fastApi/
           user: "${{ secrets.USER}}"
           key: "${{ secrets.UBUNTU_KEY }}"
-    
+     - name: ssh to deployment server
+       uses: invi5H/ssh-action@v1.0.0
+       with:
+         Name: deployment server
+         SSH_HOST: "${{ secrets.HOST}}"
+         SSH_USER: "${{ secrets.USER}}"
+         SSH_KEY:  "${{ secrets.UBUNTU_KEY }}"
+      
+     - name: 'install python on runner'
+       uses: actions/setup-python@v6.0.0
+       with:
+         python-version: '3.11'
+     - name: 'install  dep'
+       run: |
+         cd /home/ubuntu/fastApi/
+         unzip -o app.zip
+         python -m venv venv
+         source ./venv/bin/activate
+         pip install -r requirements.txt 
+         nohup uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
+         echo "app started successfully"
+         
