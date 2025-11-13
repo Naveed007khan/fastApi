@@ -5,44 +5,32 @@ on:
     branches: ["main"]
 
 jobs:
-  build:
-    name: Build Artifact
-    runs-on: ubuntu-latest
-
+  deploy:
+    name: Deploy FastAPI to EC2
+    runs-on: ec2-runner  
     steps:
+    
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-
-      - name: Install dependencies
+      - name: Setup Python environment
         run: |
-          apt update -y
-          apt install -y python3 python3-venv python3-pip
-          python -m venv myenv
-          source myenv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
+            sudo apt update -y
+            sudo apt install -y python3 python3-venv python3-pip unzip
+            cd /home/ubuntu/runner/_work/fastApi/fastApi    
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+
+      - name: Start FastAPI service
+        run: |
+          sudo systemctl daemon-reload
+          sudo systemctl enable myapp
+          sudo systemctl restart myapp
+          sudo systemctl status myapp --no-pager
+
 
      
 
-  deploy:
-    name: Deploy on EC2
-    runs-on: ec2-runner    # ✅ use your self-hosted EC2 runner
-    needs: build
-
-    steps:
-   
-      - name: Extract and Deploy FastAPI
-        run: |
-          
-          # Stop previous uvicorn process
-          pkill -f "uvicorn" || true
-
-          # Start FastAPI app with Uvicorn
-          nohup ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
-          
-          echo "✅ FastAPI deployed successfully on EC2 self-hosted runner"
+  
