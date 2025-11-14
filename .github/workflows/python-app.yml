@@ -19,10 +19,9 @@ jobs:
     - name: setup python 
       run: |
         sudo apt install python3
-        sudo apt install python3.12-venv
+        sudo apt install python3-venv python3-pip -y
         pyhton3  -m venv venv
         source ./venv/bin/activate
-        sudo apt install python3-pip
         pip install -r requirements.txt
     - name: start application
       run: |
