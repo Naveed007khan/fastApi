@@ -21,7 +21,7 @@ jobs:
         sudo apt install python3 -y
         sudo apt install python3.12-venv -y
         sudo apt install python3-pip -y
-        pyhton3  -m venv venv
+        python3  -m venv venv
         source ./venv/bin/activate
         pip install -r requirements.txt
     - name: start application
