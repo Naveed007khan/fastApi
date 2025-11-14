@@ -10,7 +10,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: fastapi-deploy-runner
+    runs-on: [self-hosted,fastapi-server]
 
     steps:
     - name: check out the code
