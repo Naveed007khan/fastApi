@@ -26,5 +26,6 @@ jobs:
         pip install -r requirements.txt
     - name: start application
       run: |
+       sudo systemctl start myapp
        echo "application will be started after getting idea about the path"
   
