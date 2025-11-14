@@ -1,0 +1,30 @@
+name: Python application
+
+on:
+  push:
+    branches: ["main"]  
+  
+permissions:
+  contents: read
+  actions: read
+jobs:
+  build:
+
+    runs-on: fastapi-deploy-runner
+
+    steps:
+    - name: check out the code
+      uses: actions/checkout@v4
+      
+    - name: setup python 
+      run: |
+        sudo apt install python3
+        sudo apt install python3.12-venv
+        pyhton3  -m venv venv
+        source ./venv/bin/activate
+        sudo apt install python3-pip
+        pip install -r requirements.txt
+    - name: start application
+      run: |
+       echo "application will be started after getting idea about the path"
+  
