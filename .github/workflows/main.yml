@@ -18,13 +18,13 @@ jobs:
       run: | 
         
         cd $GITHUB_WORKSPACE
-        docker build -t myapp .
-        docker images
-        if [ "$(docker ps  -aq -f name=my-app-container)" ]; then
-            docker rm -f my-app-container
+        sudo docker build -t myapp .
+        sudo docker images
+        if [ "$(sudo docker ps  -aq -f name=my-app-container)" ]; then
+            sudo docker rm -f my-app-container
         fi
-        docker run -p 8080:80 --name my-app-container -d myapp
-        docker ps 
+        sudo docker run -p 8080:80 --name my-app-container -d myapp
+        sudo docker ps 
     - name: message
       run: | 
         echo "application deployed"
