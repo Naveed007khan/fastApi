@@ -1,0 +1,31 @@
+name: Python application
+
+on:
+  branches: ["main"]
+  
+permissions:
+  contents: read
+  
+jobs:
+  build:
+
+    runs-on: docker-runner
+
+    steps:
+    - name: check out the code
+      uses: actions/checkout@v4
+      
+    - name: setup python 
+      run: | 
+        
+        $GITHUB_WORKSPACE
+        docker build -t myapp .
+        docker images
+        if [ "$(docker ps  -aq -f name=my-app-container)" ]; then
+            docker rm -f my-app-container
+        fi
+        docker run -p 8080:80 --name my-app-container -d myapp
+        docker ps 
+     - name:
+       run:| 
+          echo "application deployed"
