@@ -1,16 +1,15 @@
 name: Python application
 
 on:
-  branches: ["main"]
+  push:
+    branches: ["main"]
   
 permissions:
   contents: read
   
 jobs:
   build:
-
     runs-on: docker-runner
-
     steps:
     - name: check out the code
       uses: actions/checkout@v4
@@ -26,6 +25,6 @@ jobs:
         fi
         docker run -p 8080:80 --name my-app-container -d myapp
         docker ps 
-     - name:
-       run:| 
-          echo "application deployed"
+    - name: message
+      run: | 
+        echo "application deployed"
