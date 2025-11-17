@@ -23,7 +23,7 @@ jobs:
         if [ "$(sudo docker ps  -aq -f name=my-app-container)" ]; then
             sudo docker rm -f my-app-container
         fi
-        sudo docker run -p 8080:80 --name my-app-container -d myapp
+        sudo docker run -p 8000:8000 --name my-app-container -d myapp
         sudo docker ps 
     - name: message
       run: | 
