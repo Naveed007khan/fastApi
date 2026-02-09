@@ -32,7 +32,7 @@ jobs:
       if: always()
       run: |
         STATUS="${{ job.status }}"
-
+        TIME="$(TZ=Asia/Karachi date '+%Y-%m-%d %H:%M:%S %Z')"
         if [ "$STATUS" = "success" ]; then
         COLOR="28a745"
         TITLE="✅ Deployment Successful"
@@ -56,7 +56,7 @@ jobs:
           {\"name\": \"Branch\", \"value\": \"${{ github.ref_name }}\"},
           {\"name\": \"Triggered By\", \"value\": \"${{ github.actor }}\"},
           {\"name\": \"Commit\", \"value\": \"${{ github.sha }}\"},
-          {\"name\": \"Time\", \"value\": \"${{ github.run_started_at }}\"}
+          {\"name\": \"Time\", \"value\": \"$TIME\"}
         ],
         \"text\": \"$MESSAGE\"
         }],
