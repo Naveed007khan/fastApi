@@ -1,0 +1,72 @@
+name: Python application
+
+on:
+  push:
+    branches: ["main"]
+  
+permissions:
+  contents: read
+  
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - name: check out the code
+      uses: actions/checkout@v4
+      
+    - name: setup python 
+      run: | 
+        
+        cd $GITHUB_WORKSPACE
+        sudo docker build -t myapp .
+        sudo docker images
+        if [ "$(sudo docker ps  -aq -f name=my-app-container)" ]; then
+            sudo docker rm -f my-app-container
+        fi
+        sudo docker run -p 8000:8000 --name my-app-container -d myapp
+        sudo docker ps 
+    - name: message
+      run: | 
+        echo "application deployed"
+
+    - name: Send Teams Notification (Proper Card)
+      if: always()
+      run: |
+        STATUS="${{ job.status }}"
+
+        if [ "$STATUS" = "success" ]; then
+        COLOR="28a745"
+        TITLE="✅ Deployment Successful"
+        MESSAGE="Application has been successfully deployed."
+        else
+        COLOR="dc3545"
+        TITLE="🚨 DEPLOYMENT FAILED – ACTION REQUIRED"
+        MESSAGE="Pipeline failed. Please investigate immediately."
+        fi
+
+        curl -H "Content-Type: application/json" -d "{
+        \"@type\": \"MessageCard\",
+        \"@context\": \"http://schema.org/extensions\",
+        \"summary\": \"CI/CD Notification\",
+        \"themeColor\": \"$COLOR\",
+        \"title\": \"$TITLE\",
+        \"sections\": [{
+        \"facts\": [
+          {\"name\": \"Project\", \"value\": \"${{ github.repository }}\"},
+          {\"name\": \"Status\", \"value\": \"$STATUS\"},
+          {\"name\": \"Branch\", \"value\": \"${{ github.ref_name }}\"},
+          {\"name\": \"Triggered By\", \"value\": \"${{ github.actor }}\"},
+          {\"name\": \"Commit\", \"value\": \"${{ github.sha }}\"},
+          {\"name\": \"Time\", \"value\": \"${{ github.run_started_at }}\"}
+        ],
+        \"text\": \"$MESSAGE\"
+        }],
+        \"potentialAction\": [{
+        \"@type\": \"OpenUri\",
+        \"name\": \"View Logs\",
+        \"targets\": [{
+          \"os\": \"default\",
+          \"uri\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
+        }]
+        }]
+        }" ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
