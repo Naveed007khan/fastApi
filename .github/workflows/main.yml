@@ -9,7 +9,7 @@ permissions:
   
 jobs:
   build:
-    runs-on: docker-runner
+    runs-on: self-hosted
     steps:
     - name: check out the code
       uses: actions/checkout@v4
