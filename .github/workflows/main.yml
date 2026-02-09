@@ -32,14 +32,15 @@ jobs:
       if: always()
       run: |
         STATUS="${{ job.status }}"
-        TIME="$(TZ=Asia/Karachi date '+%Y-%m-%d %H:%M:%S %Z')"
+        TIME="$(TZ=Asia/Karachi date '+%Y-%m-%d %I:%M:%S %p')"
+
         if [ "$STATUS" = "success" ]; then
         COLOR="28a745"
-        TITLE="✅ Deployment Successful"
+        TITLE=" Deployment Successful"
         MESSAGE="Application has been successfully deployed."
         else
         COLOR="dc3545"
-        TITLE="🚨 DEPLOYMENT FAILED – ACTION REQUIRED"
+        TITLE=" DEPLOYMENT FAILED – ACTION REQUIRED"
         MESSAGE="Pipeline failed. Please investigate immediately."
         fi
 
