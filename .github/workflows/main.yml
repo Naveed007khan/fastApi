@@ -33,19 +33,19 @@ jobs:
       uses: jdcargile/ms-teams-notification@v1.4
       with:
        github-token: ${{ github.token }}
-       ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+       ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}  
        notification-summary: |
-         ${{ job.status == 'success' && '✅ **Deployment Successful** 🎉' || '🚨 **DEPLOYMENT FAILED – ACTION REQUIRED**' }}
+         ${{ job.status == 'success' && '✅ **Deployment Successful** 🎉' || '🚨 **DEPLOYMENT FAILED – ACTION REQUIRED**' }}  
 
-          Project: ${{ github.repository }}
-          Status: ${{ job.status }}
-          Branch: ${{ github.ref_name }}
-          Triggered By: ${{ github.actor }}
-          Commit: ${{ github.sha }}
-          Time: ${{ github.event.head_commit.timestamp }}
-          ${{ job.status == 'success' && '🎯 Application has been successfully deployed and is running.' || '⚠️ Pipeline failed. Please check logs immediately.' }}
-          Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          notification-color: ${{ job.status == 'success' && '28a745' || 'dc3545' }}
-          timezone: Asia/Karachi
-          verbose-logging: true
+          Project: ${{ github.repository }}  
+          Status: ${{ job.status }}    
+          Branch: ${{ github.ref_name }}  
+          Triggered By: ${{ github.actor }}  
+          Commit: ${{ github.sha }}  
+          Time: ${{ github.event.head_commit.timestamp }}  
+          ${{ job.status == 'success' && '🎯 Application has been successfully deployed and is running.' || '⚠️ Pipeline failed. Please check logs immediately.' }}  
+          Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}  
+          notification-color: ${{ job.status == 'success' && '28a745' || 'dc3545' }}  
+          timezone: Asia/Karachi  
+          verbose-logging: true  
 
